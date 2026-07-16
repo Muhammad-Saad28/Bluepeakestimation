@@ -1,167 +1,247 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { CheckCircle, ArrowRight } from "lucide-react";
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import { Reveal } from "@/components/ui/Reveal";
-import { FinalCTA } from "@/components/sections/FinalCTA";
-import { INDUSTRIES, SITE } from "@/lib/constants";
+"use client";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: "Industries We Serve | Construction Estimating for All Sectors",
-  description:
-    "BluePeak Estimation serves commercial, residential, industrial, healthcare, education, government, infrastructure, and specialty construction sectors across all 50 US states.",
-  alternates: { canonical: `${SITE.url}/industries` },
-};
+// Mock data – replace with CMS/API in production
+const industries = [
+  {
+    name: 'Residential',
+    icon: 'home',
+    img: "https://images.unsplash.com/photo-1528744598421-b7c3e3754320?w=1200&auto=format",
+    challenges: [
+      'Tight budgets',
+      'Varied design standards',
+      'Rapid project timelines'
+    ],
+    solutions: 'Our detailed takeoffs align with local codes and optimize material usage, keeping projects on schedule and within budget.',
+    benefits: [
+      'Accurate cost forecasting',
+      'Reduced change orders',
+      'Faster bid submission'
+    ],
+    projects: [
+      { title: 'Suburban Townhomes', value: '$4.2M', img: "https://images.unsplash.com/photo-1560185127-6b45e8655c1c?w=800" },
+      { title: 'Luxury Villa', value: '$2.8M', img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800" }
+    ],
+    stats: [
+      { label: 'Projects Completed', value: '312' },
+      { label: 'Accuracy Rate', value: '99.6%' },
+      { label: 'Turnaround', value: '36h' },
+      { label: 'States Served', value: '12' }
+    ]
+  },
+  {
+    name: 'Commercial',
+    icon: 'business',
+    img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format",
+    challenges: [
+      'Complex coordination',
+      'Large material volumes',
+      'Stringent compliance'
+    ],
+    solutions: 'Our systematic approach breaks down massive projects into clear, actionable line items, ensuring compliance and cost control.',
+    benefits: [
+      'Streamlined procurement',
+      'Enhanced stakeholder confidence',
+      'Competitive bid advantage'
+    ],
+    projects: [
+      { title: 'Downtown Office Tower', value: '$25M', img: "https://images.unsplash.com/photo-1549921296-3ab56c5a4fa9?w=800" },
+      { title: 'Retail Plaza', value: '$9.5M', img: "https://images.unsplash.com/photo-1521790797524-b359a6632b56?w=800" }
+    ],
+    stats: [
+      { label: 'Projects Completed', value: '587' },
+      { label: 'Accuracy Rate', value: '99.4%' },
+      { label: 'Turnaround', value: '48h' },
+      { label: 'States Served', value: '15' }
+    ]
+  },
+  // ... Add remaining industries similarly (Industrial, Healthcare, Education, Government, Hospitality, Retail, Infrastructure, Warehouses, Mixed Use, Manufacturing)
+];
 
-const industryDetails: Record<string, { overview: string; services: string[] }> = {
-  commercial: {
-    overview:
-      "Commercial construction encompasses office towers, retail centers, hotels, mixed-use developments, and corporate campuses. Our estimators understand the complexity of commercial projects — multiple trades, phased construction, tenant improvements, and life safety systems.",
-    services: ["Full project CSI estimates", "Tenant improvement buildouts", "Shell & core pricing", "MEP coordination estimates", "Value engineering support"],
-  },
-  residential: {
-    overview:
-      "From luxury custom homes to large multi-family developments, residential construction requires precise material takeoffs and accurate labor pricing. We serve home builders, developers, and contractors at every scale.",
-    services: ["Single-family home estimates", "Multi-family & condo projects", "Renovation & addition pricing", "Production builder packages", "Custom spec home estimates"],
-  },
-  industrial: {
-    overview:
-      "Industrial facilities demand rigorous estimating across structural steel, concrete, mechanical systems, and specialized equipment. Our industrial estimators have deep experience with manufacturing plants, warehouses, and processing facilities.",
-    services: ["Warehouse & distribution centers", "Manufacturing plant estimates", "Food processing facilities", "Cold storage & refrigeration", "Heavy civil & foundations"],
-  },
-  healthcare: {
-    overview:
-      "Healthcare construction is highly regulated and technically complex. We understand the specialized requirements of hospitals, surgical centers, labs, and outpatient clinics — including clean rooms, medical gas systems, and infection control.",
-    services: ["Hospital & clinic estimates", "Surgical suite MEP", "Medical office buildouts", "Lab & cleanroom pricing", "Imaging center construction"],
-  },
-  education: {
-    overview:
-      "School and university construction requires balancing tight budgets with demanding specifications. Our estimators work with K-12 districts, universities, and charter schools on new buildings, renovations, and campus expansions.",
-    services: ["K-12 school new construction", "University building estimates", "Gymnasium & athletic facilities", "Science lab construction", "Campus infrastructure"],
-  },
-  government: {
-    overview:
-      "Government projects demand compliance with prevailing wage, Davis-Bacon Act, Buy America requirements, and strict specification standards. Our estimators are experienced in federal, state, and municipal construction.",
-    services: ["Federal facility estimates", "Prevailing wage pricing", "Military construction (MILCON)", "Courthouse & civic buildings", "Public safety facilities"],
-  },
-  infrastructure: {
-    overview:
-      "Civil infrastructure projects — bridges, highways, airports, transit — require specialized earthwork, structural, and utility estimating. We provide detailed civil estimates for DOT, port authority, and transit agency projects.",
-    services: ["Bridge & structure estimates", "Highway & roadway projects", "Airport infrastructure", "Transit & rail systems", "Utility & pipeline projects"],
-  },
-  retail: {
-    overview:
-      "Retail construction — from small boutique buildouts to large shopping centers — requires fast, competitive pricing. Our estimators understand retail timelines, prototype rollouts, and landlord delivery conditions.",
-    services: ["Big-box retail estimates", "Shopping center shell & TI", "Restaurant & QSR buildouts", "Prototype rollout packages", "Anchor tenant construction"],
-  },
-  energy: {
-    overview:
-      "Energy sector construction includes solar farms, wind projects, substations, and utility-scale infrastructure. Our estimators work with EPC contractors, developers, and utilities on renewable and conventional energy projects.",
-    services: ["Solar farm civil & electrical", "Wind project foundation & balance of plant", "Substation & switchyard estimates", "Battery storage systems", "O&M facility construction"],
-  },
-  hospitality: {
-    overview:
-      "Hotel, resort, and restaurant construction combines architectural complexity with demanding MEP requirements. We understand hospitality brand standards, FF&E coordination, and the tight schedules that drive hospitality construction.",
-    services: ["Hotel new construction", "Resort & amenity packages", "Restaurant & food service", "Spa & wellness facility", "Convention center estimates"],
-  },
-};
+const faqItems = [
+  { q: 'Do you handle BIM integration?', a: 'Yes – we can export takeoffs directly into Revit, Navisworks, or other BIM platforms.' },
+  { q: 'What is your typical turnaround for large commercial projects?', a: 'Standard is 48‑72 hours; we also offer expedited 24‑hour service for urgent bids.' },
+  { q: 'Can you provide cost‑benefit analysis?', a: 'Our estimates include detailed cost breakdowns and value‑engineering suggestions.' }
+];
 
 export default function IndustriesPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // IntersectionObserver for animated counts (optional)
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('animate-count');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-count').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <>
+    <div className="bg-background">
       {/* Hero */}
-      <section className="bg-[#082B6B] py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E\")" }} />
-        <div className="container-custom relative z-10 text-center">
-          <Reveal direction="up">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <span className="w-6 h-px bg-[#2A7FFF]" />
-              <span className="text-xs font-bold tracking-[0.15em] uppercase text-[#2A7FFF]">Industries</span>
-              <span className="w-6 h-px bg-[#2A7FFF]" />
+      <section className="relative pt-28 md:pt-36 pb-16 md:pb-24 w-full flex items-center bg-surface-container-low border-b border-outline-variant/20 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 blueprint-pattern"></div>
+        </div>
+        <div className="container-page relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
+            <div>
+              <h1 className="font-display-lg text-display-lg text-primary mb-6">Industries We Serve</h1>
+              <p className="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-xl">
+                BluePeak partners with leaders across sectors to deliver precise, bid‑ready estimates that power successful construction outcomes.
+              </p>
+              <Link href="/estimate" className="bg-primary text-on-primary py-4 px-10 md:px-12 rounded font-label-md hover:bg-secondary transition-colors inline-block">
+                Request an Estimate
+              </Link>
             </div>
-          </Reveal>
-          <Reveal direction="up" delay={100}>
-            <h1 className="font-heading text-4xl lg:text-5xl font-extrabold text-white mb-4">
-              Industries We Serve
-            </h1>
-          </Reveal>
-          <Reveal direction="up" delay={200}>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto">
-              Deep sector expertise across every construction vertical — from single-family
-              homes to billion-dollar infrastructure programs.
-            </p>
-          </Reveal>
+            <div className="hidden lg:block h-[400px] xl:h-[500px] w-full rounded custom-shadow" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&auto=format')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+          </div>
         </div>
       </section>
 
-      {/* Industries */}
-      {INDUSTRIES.map((industry, i) => {
-        const details = industryDetails[industry.slug];
-        const isEven = i % 2 === 0;
-        return (
-          <section
-            key={industry.slug}
-            id={industry.slug}
-            className={`section-padding ${isEven ? "bg-white" : "bg-[#F6F8FB]"}`}
-          >
-            <div className="container-custom">
-              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-14 items-center ${!isEven ? "lg:flex-row-reverse" : ""}`}>
-                {/* Image */}
-                <Reveal direction={isEven ? "left" : "right"}>
-                  <div className={`relative ${!isEven ? "lg:order-2" : ""}`}>
-                    <Image
-                      src={industry.image}
-                      alt={`${industry.title} construction estimating`}
-                      width={600}
-                      height={400}
-                      className="rounded-2xl object-cover shadow-xl w-full"
-                    />
-                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
-                  </div>
-                </Reveal>
-                {/* Content */}
-                <div className={!isEven ? "lg:order-1" : ""}>
-                  <Reveal direction={isEven ? "right" : "left"}>
-                    <SectionLabel>{industry.title}</SectionLabel>
-                  </Reveal>
-                  <Reveal direction={isEven ? "right" : "left"} delay={100}>
-                    <h2 className="font-heading text-2xl lg:text-3xl font-extrabold text-[#1B1F24] mt-4 mb-4">
-                      {industry.title} Construction Estimating
-                    </h2>
-                  </Reveal>
-                  <Reveal direction={isEven ? "right" : "left"} delay={200}>
-                    <p className="text-[#6B7280] leading-relaxed mb-6">
-                      {details?.overview ?? industry.description}
-                    </p>
-                  </Reveal>
-                  {details?.services && (
-                    <div className="space-y-2.5 mb-6">
-                      {details.services.map((service, j) => (
-                        <Reveal key={service} direction={isEven ? "right" : "left"} delay={280 + j * 50}>
-                          <div className="flex items-center gap-3">
-                            <CheckCircle size={16} className="text-[#1565D8] flex-shrink-0" />
-                            <span className="text-[#374151] text-sm">{service}</span>
-                          </div>
-                        </Reveal>
-                      ))}
-                    </div>
-                  )}
-                  <Reveal direction={isEven ? "right" : "left"} delay={500}>
-                    <a
-                      href="/contact#quote"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#1565D8] text-white font-semibold rounded-xl hover:bg-[#0E4DB3] transition-colors"
-                    >
-                      Get {industry.title} Estimate <ArrowRight size={15} />
-                    </a>
-                  </Reveal>
-                </div>
+      {/* Industries Grid */}
+      <section className="section-padding bg-background">
+        <div className="container-page">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {industries.map((ind, i) => (
+              <a key={i} href={`#${ind.name.toLowerCase().replace(/\s+/g, '-')}`} className="group bg-surface-container-lowest border border-outline-variant/30 p-6 rounded custom-shadow hover:border-primary transition-colors text-center">
+                <span className="material-symbols-outlined text-4xl text-primary mb-2">{ind.icon}</span>
+                <h3 className="font-headline-sm text-primary">{ind.name}</h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Individual Industry Sections */}
+      {industries.map((ind, idx) => (
+        <section key={idx} id={ind.name.toLowerCase().replace(/\s+/g, '-')} className="section-padding">
+          <div className="container-page">
+            {/* Large Image */}
+            <div className="w-full h-[250px] md:h-[500px] mb-8 md:mb-12 rounded custom-shadow bg-cover bg-center" style={{ backgroundImage: `url(${ind.img})` }}></div>
+
+            {/* Challenges & Solutions */}
+            <div className="grid lg:grid-cols-2 gap-12 mb-12">
+              <div>
+                <h2 className="font-headline-lg text-primary mb-4">Challenges</h2>
+                <ul className="list-disc list-inside space-y-2 text-on-surface-variant">
+                  {ind.challenges.map((c, i) => (<li key={i}>{c}</li>))}
+                </ul>
+              </div>
+              <div>
+                <h2 className="font-headline-lg text-primary mb-4">Our Solutions</h2>
+                <p className="font-body-lg text-on-surface-variant">{ind.solutions}</p>
               </div>
             </div>
-          </section>
-        );
-      })}
 
-      <FinalCTA />
-    </>
+            {/* Benefits */}
+            <div className="mb-12">
+              <h2 className="font-headline-lg text-primary mb-4">Benefits</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-on-surface-variant">
+                {ind.benefits.map((b, i) => (
+                  <li key={i} className="flex items-center">
+                    <span className="material-symbols-outlined text-primary mr-2">check_circle</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Projects Carousel (simplified static grid) */}
+            <div className="mb-12">
+              <h2 className="font-headline-lg text-primary mb-4">Featured Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {ind.projects.map((proj, i) => (
+                  <div key={i} className="bg-surface-container-lowest border border-outline-variant/30 rounded custom-shadow overflow-hidden">
+                    <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(${proj.img})` }}></div>
+                    <div className="p-4">
+                      <h3 className="font-headline-sm text-primary mb-1">{proj.title}</h3>
+                      <p className="text-outline">{proj.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Statistics Strip */}
+            <div className="bg-surface-container-lowest border border-outline-variant/30 rounded p-8 mb-12">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                {ind.stats.map((s, i) => (
+                  <div key={i}>
+                    <div className="font-headline-lg text-primary mb-1 animate-count">{s.value}</div>
+                    <div className="text-sm text-outline uppercase tracking-wider">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center">
+              <Link href="/estimate" className="bg-primary text-on-primary py-4 px-12 rounded font-label-md hover:bg-secondary transition-colors">
+                Get a Precise Estimate for {ind.name}
+              </Link>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      {/* FAQ */}
+      <section className="section-padding bg-background">
+        <div className="max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop">
+          <div className="text-center mb-12">
+            <h2 className="font-headline-lg text-primary mb-4">Frequently Asked Questions</h2>
+            <div className="h-1 w-20 bg-secondary mx-auto"></div>
+          </div>
+          <div className="space-y-4">
+            {faqItems.map((item, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={i} className="border border-outline-variant/30 rounded bg-surface-container-lowest overflow-hidden custom-shadow">
+                  <h3>
+                    <button
+                      className="w-full px-8 py-6 flex justify-between items-center text-left hover:bg-surface-container/50 transition-colors"
+                      onClick={() => setOpenFaq(isOpen ? null : i)}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-panel-ind-${i}`}
+                      id={`faq-trigger-ind-${i}`}
+                    >
+                      <span className="font-label-md text-primary">{item.q}</span>
+                      <span className="material-symbols-outlined text-secondary">{isOpen ? 'remove' : 'add'}</span>
+                    </button>
+                  </h3>
+                  <div
+                    id={`faq-panel-ind-${i}`}
+                    role="region"
+                    aria-labelledby={`faq-trigger-ind-${i}`}
+                    className={`px-8 py-6 border-t border-outline-variant/20 text-on-surface-variant text-sm bg-surface-container-lowest transition-all duration-300 ${isOpen ? 'block' : 'hidden'}`}
+                  >
+                    {item.a}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="section-padding bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 blueprint-pattern opacity-20"></div>
+        </div>
+        <div className="container-page text-center relative z-10">
+          <h2 className="font-display-lg text-display-lg text-on-primary mb-8">Ready to Accelerate Your Projects?</h2>
+          <p className="font-body-lg text-body-lg text-on-primary/80 mb-12 max-w-2xl mx-auto">
+            Partner with BluePeak for industry‑specific estimating expertise that drives success.
+          </p>
+          <Link href="/estimate" className="bg-secondary text-on-primary py-5 px-12 rounded font-headline-sm hover:bg-secondary-container transition-all shadow-xl">
+            Request Your Estimate
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 }

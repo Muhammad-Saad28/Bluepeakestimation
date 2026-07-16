@@ -1,267 +1,235 @@
-import Link from "next/link";
-import Image from "next/image";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  ArrowRight,
-  Shield,
-  Clock,
-  Award,
-} from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { Mail, MapPin, MessageCircle, CheckCircle2 } from 'lucide-react';
+import { SITE } from '@/lib/constants';
 
-// Social media SVG icons (Lucide removed brand icons in v0.400+)
-const LinkedInIcon = () => (
-  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-  </svg>
+const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
 );
-const FacebookIcon = () => (
-  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-  </svg>
+const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
 );
-const InstagramIcon = () => (
-  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-  </svg>
+const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
 );
-const XIcon = () => (
-  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-);
-const YouTubeIcon = () => (
-  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20.06 12 20.06 12 20.06s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
-  </svg>
-);
-import { SITE, SERVICES, INDUSTRIES, SOCIAL } from "@/lib/constants";
-import { NewsletterForm } from "./NewsletterForm";
-
-const footerServices = SERVICES.slice(0, 9);
-const footerIndustries = INDUSTRIES.slice(0, 6);
-
-const quickLinks = [
-  { label: "About BluePeak", href: "/about" },
-  { label: "Our Services", href: "/services" },
-  { label: "Industries Served", href: "/industries" },
-  { label: "Featured Projects", href: "/projects" },
-  { label: "Why Choose Us", href: "/why-us" },
-  { label: "Pricing Plans", href: "/pricing" },
-  { label: "Blog & Resources", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
-  { label: "Contact Us", href: "/contact" },
+const SOCIAL_LINKS = [
+  { label: 'Facebook', href: 'https://www.facebook.com/share/18fo4fV7jJ/', icon: FacebookIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/blue_peakestimation', icon: InstagramIcon },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bluepeak-estimation-babb4441b', icon: LinkedinIcon },
 ];
 
-const trustBadges = [
-  { icon: Shield, text: "NDA Protected" },
-  { icon: Clock, text: "24-48hr Delivery" },
-  { icon: Award, text: "98% Accuracy" },
+const OFFICES = [
+  {
+    city: 'New York',
+    address: '1178 Broadway, 3rd Floor',
+    region: 'New York, NY 10001',
+    country: 'USA',
+  },
+  {
+    city: 'Irving, TX',
+    address: '5000 Riverside Dr, Suite 100',
+    region: 'Irving, TX 75039',
+    country: 'USA',
+  },
+  {
+    city: 'Sydney',
+    address: '123 Pitt St, Level 5',
+    region: 'Sydney NSW 2000',
+    country: 'Australia',
+  },
 ];
 
-export function Footer() {
+const QUICK_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Estimating Fees', to: '/pricing' },
+  { label: 'How It Works', to: '/faq' },
+  { label: 'Blog', to: '/blog' },
+  { label: 'Samples', to: '/samples' },
+  { label: 'Get Estimate', to: '/contact' },
+  { label: 'Contact', to: '/contact' },
+];
+
+export default function Footer() {
+  const year = new Date().getFullYear();
+  const phoneNumber = SITE.phone ? String(SITE.phone) : null;
+  const hasPhone = phoneNumber != null && phoneNumber.length > 0;
+
   return (
-    <footer className="bg-[#082B6B] text-white">
-      {/* Trust strip */}
-      <div className="border-b border-white/10">
-        <div className="container-custom py-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
-            {trustBadges.map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-white/80">
-                <Icon size={16} className="text-[#2A7FFF]" />
-                <span className="text-sm font-medium">{text}</span>
+    <footer className="bg-[#050F1E] text-gray-400" role="contentinfo" itemScope itemType="https://schema.org/LocalBusiness">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="lg:col-span-1" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+            <meta itemProp="addressCountry" content="US" />
+            <Link href="/" aria-label={`${SITE.name} home`}>
+              <div className="relative h-12 w-auto mb-4 flex items-center justify-start">
+                <Image 
+                  src="/logo.png" 
+                  alt={SITE.name} 
+                  width={120} 
+                  height={48} 
+                  className="object-contain"
+                  itemProp="image"
+                />
               </div>
-            ))}
-            <div className="flex items-center gap-2 text-white/80">
-              <MapPin size={16} className="text-[#2A7FFF]" />
-              <span className="text-sm font-medium">Serving All 50 US States</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main footer content */}
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Company Info */}
-          <div className="lg:col-span-2">
-            <Link href="/">
-              <Image
-                src="/logo.png"
-                alt="BluePeak Estimation"
-                width={180}
-                height={60}
-                className="h-12 w-auto object-contain brightness-0 invert mb-6"
-              />
             </Link>
-            <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-xs">
-              Professional construction cost estimating for contractors and developers across all
-              50 states. Accurate estimates. Fast delivery. Winning results.
+            <meta itemProp="name" content={SITE.name} />
+            <p className="text-sm text-gray-300 leading-relaxed mb-5">
+              Precision construction cost estimates delivered in 24–48 hours.
+              Serving contractors across all 50 US states.
             </p>
-            <div className="space-y-3">
-              <a
-                href={`tel:${SITE.phone}`}
-                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-[#1565D8] transition-colors">
-                  <Phone size={14} />
-                </div>
-                <span className="text-sm">{SITE.phone}</span>
-              </a>
+            <div className="space-y-2 text-sm">
+              {hasPhone && phoneNumber && (
+                <>
+                  <a
+                    href={`tel:${phoneNumber.replace(/[^0-9]/g, '')}`}
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                    itemProp="telephone"
+                  >
+                    {phoneNumber}
+                  </a>
+                  <a
+                    href={`https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-[#4ade80] hover:text-[#86efac] transition-colors duration-200"
+                  >
+                    <MessageCircle className="h-4 w-4 flex-shrink-0" />
+                    {phoneNumber} (WhatsApp)
+                  </a>
+                </>
+              )}
               <a
                 href={`mailto:${SITE.email}`}
-                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors group"
+                className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-200"
+                itemProp="email"
               >
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center group-hover:bg-[#1565D8] transition-colors">
-                  <Mail size={14} />
-                </div>
-                <span className="text-sm">{SITE.email}</span>
+                <Mail className="h-4 w-4 flex-shrink-0" />
+                {SITE.email}
               </a>
-              <div className="flex items-center gap-3 text-white/70">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                  <MapPin size={14} />
-                </div>
-                <span className="text-sm">United States of America</span>
+            </div>
+            <div className="mt-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">Follow Us</p>
+              <div className="flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2.5 space-x-5 w-fit">
+                <a href={`https://wa.me/${SITE.whatsapp}`} className="text-emerald-400 hover:text-emerald-300 transition-colors" aria-label="Contact BluePeak Estimation on WhatsApp" rel="noopener noreferrer">
+                  <MessageCircle className="w-[18px] h-[18px]" />
+                </a>
+                <a href="https://www.facebook.com/bluepeakestimation" className="text-white/70 hover:text-white transition-colors" aria-label="Follow BluePeak Estimation on Facebook" rel="noopener noreferrer" target="_blank">
+                  <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" /></svg>
+                </a>
+                <a href="https://www.instagram.com/blue_peakestimation" className="text-white/70 hover:text-white transition-colors" aria-label="Follow BluePeak Estimation on Instagram" rel="noopener noreferrer" target="_blank">
+                  <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                </a>
+                <a href="https://x.com/bluepeakest" className="text-white/70 hover:text-white transition-colors" aria-label="Follow BluePeak Estimation on X (Twitter)" rel="noopener noreferrer" target="_blank">
+                  <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/company/bluepeak-estimation" className="text-sky-400 hover:text-sky-300 transition-colors" aria-label="Follow BluePeak Estimation on LinkedIn" rel="noopener noreferrer" target="_blank">
+                  <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
+                </a>
               </div>
             </div>
-            {/* Social links */}
-            <div className="flex items-center gap-3 mt-6">
-              {[
-                { Icon: LinkedInIcon, href: SOCIAL.linkedin, label: "LinkedIn" },
-                { Icon: FacebookIcon, href: SOCIAL.facebook, label: "Facebook" },
-                { Icon: InstagramIcon, href: SOCIAL.instagram, label: "Instagram" },
-                { Icon: XIcon, href: SOCIAL.twitter, label: "X (Twitter)" },
-                { Icon: YouTubeIcon, href: SOCIAL.youtube, label: "YouTube" },
-              ].map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#1565D8] transition-colors text-white"
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {['AACE Certified', 'ASPE Member', '97% Accuracy'].map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center gap-1 bg-[#131E2D] border border-[#243346] text-gray-400 text-xs px-2.5 py-1 rounded-full"
                 >
-                  <Icon />
-                </a>
+                  <CheckCircle2 className="h-3 w-3 text-[#5D93F2]" />
+                  {badge}
+                </span>
               ))}
             </div>
-
           </div>
 
-          {/* Services */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-5">
-              Services
+            <h3 className="font-semibold text-white text-sm uppercase tracking-widest mb-5">
+              Trades
             </h3>
-            <ul className="space-y-2.5">
-              {footerServices.map((service) => (
+            <ul className="space-y-2.5" role="list">
+              {[
+                { title: 'Drywall Estimating Services', slug: 'drywall-takeoff' },
+                { title: 'Flooring Estimating Services', slug: 'flooring-estimating' },
+                { title: 'Insulation Estimating Services That Actually Hold Up on Site', slug: 'insulation-estimating' },
+                { title: 'Interior & Exterior Finishes Estimating Services', slug: 'interior-and-exterior-finishes-estimating' },
+                { title: 'Professional Millwork Estimating Services for Contractors Across the USA', slug: 'millwork-estimating' },
+                { title: 'Doors, Windows & Openings Estimating Services', slug: 'openings-estimating' },
+                { title: 'Painting Estimating Services', slug: 'painting-estimating' },
+                { title: 'Duct Estimating Services', slug: 'duct-estimating' }
+              ].map((service) => (
                 <li key={service.slug}>
                   <Link
-                    href={`/services/${service.slug}`}
-                    className="flex items-center gap-2 text-sm text-white/70 hover:text-white group transition-colors"
+                    href={`/trades/${service.slug}`}
+                    className="text-sm text-gray-300 hover:text-white transition-colors duration-200 flex items-center gap-1.5 group"
                   >
-                    <ArrowRight
-                      size={12}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-[#2A7FFF]"
-                    />
-                    {service.shortTitle}
+                    <span className="w-1 h-1 bg-[#1048A0] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
+                    {service.title}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/services"
-                  className="text-sm text-[#2A7FFF] hover:text-white transition-colors font-medium"
-                >
-                  View All Services →
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Industries + Quick Links */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-5">
-              Industries
+            <h3 className="font-semibold text-white text-sm uppercase tracking-widest mb-5">
+              Quick Links
             </h3>
-            <ul className="space-y-2.5">
-              {footerIndustries.map((industry) => (
-                <li key={industry.slug}>
-                  <Link
-                    href={`/industries`}
-                    className="flex items-center gap-2 text-sm text-white/70 hover:text-white group transition-colors"
-                  >
-                    <ArrowRight
-                      size={12}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-[#2A7FFF]"
-                    />
-                    {industry.title}
-                  </Link>
+              <ul className="space-y-2.5" role="list">
+                {QUICK_LINKS.filter((l) => l.label !== 'Get Estimate').map(({ label, to }) => (
+                  <li key={label}>
+                    <Link href={to} className="text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+            <h3 className="font-semibold text-white text-sm uppercase tracking-widest mb-4 mt-8">
+              Why Us
+            </h3>
+            <ul className="space-y-2 text-sm" role="list">
+              {['24-48hr Turnaround', '97% Accuracy', 'All 50 States', 'Free Revisions', 'No Retainers'].map((item) => (
+                <li key={item} className="flex items-center gap-2 text-gray-400">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#5D93F2] flex-shrink-0" />
+                  {item}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-white/50 mb-5">
-              Company
+            <h3 className="font-semibold text-white text-sm uppercase tracking-widest mb-5">
+              Our Offices
             </h3>
-            <ul className="space-y-2.5">
-              {quickLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="flex items-center gap-2 text-sm text-white/70 hover:text-white group transition-colors"
-                  >
-                    <ArrowRight
-                      size={12}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-[#2A7FFF]"
-                    />
-                    {link.label}
-                  </Link>
-                </li>
+            <div className="space-y-5">
+              {OFFICES.map((office) => (
+                <address key={office.city} className="not-italic">
+                  <p className="font-medium text-white text-sm mb-0.5 flex items-center gap-1.5">
+                    <MapPin className="h-3.5 w-3.5 text-[#5D93F2] flex-shrink-0" />
+                    <span itemProp="name">{office.city}</span>
+                  </p>
+                  <p className="text-xs text-gray-500 pl-5" itemProp="streetAddress">{office.address}</p>
+                  <p className="text-xs text-gray-500 pl-5" itemProp="addressLocality">{office.region}</p>
+                  <p className="text-xs text-gray-600 pl-5" itemProp="addressCountry">{office.country}</p>
+                </address>
               ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-14 pt-10 border-t border-white/10">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-md">
-              <h3 className="font-bold text-lg mb-1">Stay ahead with construction insights</h3>
-              <p className="text-white/60 text-sm">
-                Industry tips, cost updates, and estimating best practices — straight to your inbox.
-              </p>
             </div>
-            <NewsletterForm />
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="container-custom py-5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} {SITE.name}. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6 text-sm text-white/50">
-              <Link href="/privacy-policy" className="hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms-of-service" className="hover:text-white transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="/sitemap.xml" className="hover:text-white transition-colors">
-                Sitemap
-              </Link>
-            </div>
+      <div className="border-t border-[#1A2635]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600">
+          <p>© {year} {SITE.name}. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="hover:text-gray-400 transition-colors duration-200">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-gray-400 transition-colors duration-200">Terms of Service</Link>
+            <Link href="/cookies" className="hover:text-gray-400 transition-colors duration-200">Cookie Policy</Link>
           </div>
+          <p className="text-gray-700">
+            3,200+ Projects &bull; 97% Accuracy &bull; All 50 States
+          </p>
         </div>
       </div>
     </footer>

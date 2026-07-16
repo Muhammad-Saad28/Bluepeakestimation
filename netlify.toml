@@ -2,7 +2,6 @@
   command = "npm run build"
   publish = ".next"
 
-# The Next.js Runtime plugin is automatically installed by Netlify, 
-# but declaring it here ensures it runs properly for API routing.
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+  

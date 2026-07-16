@@ -18,7 +18,7 @@ export function generatePageMetadata({
   noIndex = false,
   keywords = [],
 }: PageMetadataOptions): Metadata {
-  const fullTitle = `${title} | ${SITE.name}`;
+  const fullTitle = title;
   const desc = description ?? SITE.description;
   const url = `${SITE.url}${path}`;
   const ogImage = image ?? `${SITE.url}/og-image.jpg`;
@@ -65,6 +65,8 @@ export function generatePageMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: "@bluepeakest",
+      creator: "@bluepeakest",
       title: fullTitle,
       description: desc,
       images: [ogImage],

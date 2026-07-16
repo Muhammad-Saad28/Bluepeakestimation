@@ -1,133 +1,84 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { MapPin, DollarSign, Layers, ArrowRight } from "lucide-react";
-import { SectionLabel } from "@/components/ui/SectionLabel";
-import { Reveal } from "@/components/ui/Reveal";
-import { FinalCTA } from "@/components/sections/FinalCTA";
-import { PROJECTS, SITE } from "@/lib/constants";
+import Link from "next/link";
+import { PROJECTS } from "@/lib/constants";
+import { generatePageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Featured Construction Estimating Projects | BluePeak Estimation",
+export const metadata = generatePageMetadata({
+  title: "Projects",
   description:
-    "A portfolio of construction estimating projects by BluePeak Estimation — commercial towers, hospitals, industrial campuses, infrastructure, and residential developments across the USA.",
-  alternates: { canonical: `${SITE.url}/projects` },
-};
-
-const trades = ["All", "Commercial", "Healthcare", "Industrial", "Civil", "Residential", "Education"];
+    "Explore BluePeak Estimation's portfolio of completed construction estimating projects across commercial, healthcare, industrial, infrastructure, and residential sectors.",
+  path: "/projects",
+});
 
 export default function ProjectsPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="bg-[#082B6B] py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E\")" }} />
-        <div className="container-custom relative z-10 text-center">
-          <Reveal direction="up">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <span className="w-6 h-px bg-[#2A7FFF]" />
-              <span className="text-xs font-bold tracking-[0.15em] uppercase text-[#2A7FFF]">Our Work</span>
-              <span className="w-6 h-px bg-[#2A7FFF]" />
-            </div>
-          </Reveal>
-          <Reveal direction="up" delay={100}>
-            <h1 className="font-heading text-4xl lg:text-5xl font-extrabold text-white mb-4">
-              Featured Projects
-            </h1>
-          </Reveal>
-          <Reveal direction="up" delay={200}>
-            <p className="text-white/70 text-lg max-w-2xl mx-auto">
-              A sample of the construction projects our estimating team has supported — from
-              mixed-use towers to highway infrastructure across America.
-            </p>
-          </Reveal>
+    <div className="bg-background text-on-background">
+      <section className="relative overflow-hidden border-b border-outline-variant/20 bg-primary py-24 lg:py-32">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 blueprint-pattern" />
+        </div>
+        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+          <p className="font-label-md text-label-md uppercase tracking-[0.35em] text-secondary-fixed/80">Projects</p>
+          <h1 className="mt-4 max-w-3xl font-display-lg text-display-lg leading-tight text-on-primary">
+            Construction Estimating Projects Delivered Nationwide
+          </h1>
+          <p className="mt-6 max-w-2xl font-body-lg text-body-lg leading-relaxed text-on-primary/80">
+            A selection of recent estimating engagements across project types, trades, and delivery methods we support.
+          </p>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <Link href="/contact" className="bg-secondary px-8 py-4 text-center font-label-md text-label-md text-on-primary transition-colors hover:bg-secondary-container">
+              Request an Estimate
+            </Link>
+            <Link href="/samples" className="border border-on-primary/30 px-8 py-4 text-center font-label-md text-label-md text-on-primary transition-colors hover:bg-on-primary/10">
+              View Samples
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Projects Grid */}
-      <section className="section-padding bg-[#F6F8FB]">
-        <div className="container-custom">
-          {/* Category pills */}
-          <Reveal direction="up">
-            <div className="flex flex-wrap gap-2 mb-10">
-              {trades.map((trade) => (
-                <button
-                  key={trade}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                    trade === "All"
-                      ? "bg-[#082B6B] text-white"
-                      : "bg-white border border-[#E6EAF0] text-[#6B7280] hover:border-[#1565D8] hover:text-[#1565D8]"
-                  }`}
-                >
-                  {trade}
-                </button>
-              ))}
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+          <div className="mb-12 max-w-3xl">
+            <h2 className="font-headline-lg text-headline-lg text-primary">Recent Estimating Engagements</h2>
+            <p className="mt-4 font-body-lg text-body-lg text-on-surface-variant">
+              Every project listed below represents a real estimating engagement — from initial takeoff through final bid-ready delivery.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {PROJECTS.map((project, i) => (
-              <Reveal key={project.title} direction="up" delay={i * 80}>
-                <div className="group bg-white rounded-2xl overflow-hidden border border-[#E6EAF0] shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300">
-                  {/* Image */}
-                  <div className="relative h-56 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[#082B6B]/90 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">
-                        {project.trade}
-                      </span>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-[#1565D8] text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                        {project.value}
-                      </span>
-                    </div>
+              <article key={i} className="premium-card overflow-hidden rounded-2xl group">
+                <div className="h-56 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: `url(${project.image})` }} />
+                <div className="p-8">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-semibold uppercase tracking-[0.25em] text-secondary">{project.trade}</span>
+                    <span className="text-xs font-semibold text-outline">{project.sqft}</span>
                   </div>
-                  {/* Content */}
-                  <div className="p-6">
-                    <h2 className="font-heading text-lg font-bold text-[#1B1F24] mb-2 group-hover:text-[#1565D8] transition-colors">
-                      {project.title}
-                    </h2>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[#9CA3AF] text-xs mb-3">
-                      <span className="flex items-center gap-1"><MapPin size={11} />{project.location}</span>
-                      <span className="flex items-center gap-1"><Layers size={11} />{project.sqft}</span>
-                    </div>
-                    <p className="text-[#6B7280] text-sm leading-relaxed">
-                      {project.description}
-                    </p>
+                  <h3 className="font-headline-sm text-headline-sm text-primary mb-2">{project.title}</h3>
+                  <p className="text-sm text-outline mb-2">{project.location}</p>
+                  <p className="font-body-md text-body-md text-on-surface-variant mb-4">{project.description}</p>
+                  <div className="flex items-center justify-between pt-4 border-t border-outline-variant/20">
+                    <span className="font-headline-sm text-headline-sm text-secondary">Value: {project.value}</span>
+                    <Link href="/samples" className="text-sm font-semibold text-secondary hover:underline underline-offset-4">
+                      View Sample
+                    </Link>
                   </div>
                 </div>
-              </Reveal>
+              </article>
             ))}
           </div>
-
-          {/* CTA card */}
-          <Reveal direction="up" delay={300}>
-            <div className="mt-12 bg-[#082B6B] rounded-2xl p-10 text-center">
-              <h3 className="font-heading text-2xl font-bold text-white mb-3">
-                Have a Similar Project?
-              </h3>
-              <p className="text-white/70 mb-6 max-w-md mx-auto">
-                Let us provide an accurate estimate for your next construction project.
-                No commitment required.
-              </p>
-              <a
-                href="/contact#quote"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-[#1565D8] hover:bg-[#2A7FFF] text-white font-bold rounded-xl transition-colors"
-              >
-                Request a Free Estimate <ArrowRight size={16} />
-              </a>
-            </div>
-          </Reveal>
         </div>
       </section>
 
-      <FinalCTA />
-    </>
+      <section className="bg-primary py-20 text-on-primary">
+        <div className="mx-auto max-w-container-max px-margin-mobile text-center md:px-margin-desktop">
+          <h2 className="font-headline-lg text-headline-lg">Ready for your next estimate?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-on-primary/80">
+            Send your drawings and we will match the right estimating approach for your project scope and deadline.
+          </p>
+          <Link href="/contact" className="mt-8 inline-flex bg-secondary px-8 py-4 font-label-md text-label-md text-on-primary transition-colors hover:bg-secondary-container">
+            Start Your Estimate
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 }
