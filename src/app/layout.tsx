@@ -321,7 +321,6 @@ export default function RootLayout({
             })
           }}
         />
-        <BreadcrumbJsonLd />
         {/* SEO FIX: Added Review schema from testimonials data */}
         <script
           type="application/ld+json"
@@ -349,6 +348,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Navbar />
+        <BreadcrumbJsonLd />
         <main id="main" className="flex-1 flex flex-col">{children}</main>
         <Footer />
       </body>

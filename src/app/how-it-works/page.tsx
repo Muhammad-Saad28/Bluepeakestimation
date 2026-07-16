@@ -38,6 +38,11 @@ export default function HowItWorksPage() {
           <div className="absolute inset-0 blueprint-pattern" />
         </div>
         <div className="mx-auto max-w-container-max container-page">
+          <div className="flex items-center gap-2 mb-6 text-on-primary/50 text-xs tracking-widest uppercase">
+            <Link href="/" className="hover:text-on-primary transition-colors">Home</Link>
+            <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>chevron_right</span>
+            <span className="text-on-primary">How It Works</span>
+          </div>
           <p className="font-label-md text-label-md uppercase tracking-[0.35em] text-secondary-fixed/80">How It Works</p>
           <h1 className="mt-4 max-w-3xl font-display-lg text-display-lg leading-tight text-on-primary">
             Four steps from drawings to a completed estimate.
